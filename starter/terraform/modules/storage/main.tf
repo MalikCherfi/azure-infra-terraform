@@ -15,7 +15,7 @@ resource "azurerm_storage_account" "sa" {
   account_tier                    = "Standard"
   account_replication_type        = "LRS"
   account_kind                    = "StorageV2"
-  min_tls_version                 = "1.2"
+  min_tls_version                 = "TLS1_2"
   allow_nested_items_to_be_public = true
   tags                            = var.tags
 }
