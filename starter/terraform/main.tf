@@ -36,14 +36,15 @@ data "azurerm_service_plan" "shared" {
 # TODO : appeler le module "./modules/storage"
 # Paramètres à passer : owner, resource_group_name, location, tags
 
-# module "storage" {
-#   source = "./modules/storage"
-#
-#   owner               = ???
-#   resource_group_name = ???
-#   location            = ???
-#   tags                = ???
-# }
+module "storage" {
+  source = "./modules/storage"
+
+  owner               = var.owner
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  tags                = var.tags
+
+}
 
 # ── App Service (Étape 3) ─────────────────────────────────────────────────────
 # TODO : appeler le module "./modules/app-service"
