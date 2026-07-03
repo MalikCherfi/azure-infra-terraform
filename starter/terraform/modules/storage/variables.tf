@@ -11,7 +11,7 @@ variable "location" {
   default = "francecentral"
 }
 variable "tags" {
-  type    = map(string)
+  type    = string
   default = "managed_by : cli environment=tp owner=malik-cherf"
 }
 variable "id" {
