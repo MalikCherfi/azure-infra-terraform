@@ -14,7 +14,7 @@ resource "azurerm_linux_web_app" "app" {
   name                = "app-${var.owner}-tf"
   resource_group_name = var.resource_group_name
   location            = var.location
-  service_plan_id     = split("/", var.service_plan_id)
+  service_plan_id     = split("/", var.service_plan_id)[2]
   https_only          = true
 
   site_config {
