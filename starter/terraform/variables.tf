@@ -33,6 +33,6 @@ variable "shared_plan_name" {
 
 variable "tags" {
   description = "Additional tags to merge with default tags"
-  type        = string
-  default     = "managed_by : cli environment=tp owner=malik-cherf"
+  type        = map(string)
+  default     = {}
 }
