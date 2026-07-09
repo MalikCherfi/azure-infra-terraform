@@ -14,15 +14,26 @@ locals {
 
 # ── Data sources ──────────────────────────────────────────────────────────────
 
-# Resource Group pré-créé par le formateur — ne jamais le gérer en Terraform
+
 data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
 
-# Plan App Service partagé (dans un Resource Group séparé)
-data "azurerm_service_plan" "shared" {
-  name                = var.shared_plan_name
-  resource_group_name = var.shared_rg_name
+resource "azurerm_service_plan" "plan" {
+  name                = var.plan_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  os_type             = "Linux"
+  sku_name            = "B1"
+}
+
+module "oidc" {
+  source = "./modules/oidc"
+
+  owner               = var.owner
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  tags                = var.tags
 }
 
 # ── Storage (Étape 2) ─────────────────────────────────────────────────────────
@@ -42,7 +53,7 @@ module "app_service" {
 
   owner               = var.owner
   resource_group_name = var.resource_group_name
-  service_plan_id     = data.azurerm_service_plan.shared.id
+  service_plan_id     = azurerm_service_plan.plan.id
   tags                = var.tags
 }
 
@@ -53,7 +64,7 @@ module "function_app" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
-  service_plan_id     = data.azurerm_service_plan.shared.id
+  service_plan_id     = azurerm_service_plan.plan.id
   tags                = var.tags
 }
 
