@@ -4,7 +4,7 @@ variable "owner" {
 }
 variable "resource_group_name" {
   type    = string
-  default = "mcherfiRG"
+  default = "rg-malik-cherfi"
 }
 variable "location" {
   type    = string
