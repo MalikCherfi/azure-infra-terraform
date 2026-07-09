@@ -51,6 +51,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "80"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
     description                = "Allow HTTP inbound"
   }
 
@@ -63,6 +64,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "443"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
     description                = "Allow HTTPS inbound"
   }
 
@@ -75,6 +77,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
     description                = "Deny all inbound traffic"
   }
 }
