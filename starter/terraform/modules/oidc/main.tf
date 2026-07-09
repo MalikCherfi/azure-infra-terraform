@@ -20,7 +20,7 @@ resource "azurerm_user_assigned_identity" "oidc" {
 
 resource "azurerm_federated_identity_credential" "github-federated-identity-main" {
   name                      = var.fic_main_name
-  audience                  = ["https://github.com/MalikCherfi/azure-infra-terraform"]
+  audience                  = ["api://AzureADTokenExchange"]
   issuer                    = "https://token.actions.githubusercontent.com"
   user_assigned_identity_id = azurerm_user_assigned_identity.oidc.id
   subject                   = "repo:MalikCherfi/azure-infra-terraform:ref:refs/heads/main"
@@ -28,7 +28,7 @@ resource "azurerm_federated_identity_credential" "github-federated-identity-main
 
 resource "azurerm_federated_identity_credential" "github-federated-identity-feat-terraform-config" {
   name                      = var.fic_feat_name
-  audience                  = ["https://github.com/MalikCherfi/azure-infra-terraform"]
+  audience                  = ["api://AzureADTokenExchange"]
   issuer                    = "https://token.actions.githubusercontent.com"
   user_assigned_identity_id = azurerm_user_assigned_identity.oidc.id
   subject                   = "repo:MalikCherfi/azure-infra-terraform:ref:refs/heads/feat/terraform-config"
