@@ -52,6 +52,7 @@ module "app_service" {
   source = "./modules/app-service"
 
   owner               = var.owner
+  location            = var.location
   resource_group_name = var.resource_group_name
   service_plan_id     = azurerm_service_plan.plan.id
   tags                = var.tags
