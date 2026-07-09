@@ -11,6 +11,7 @@ variable "owner" {
 variable "resource_group_name" {
   description = "Name of the Resource Group pre-created by the trainer. Ex: rg-john-doe"
   type        = string
+  default     = "rg-malik-cherfi"
 }
 
 variable "location" {
@@ -18,17 +19,10 @@ variable "location" {
   type        = string
   default     = "francecentral"
 }
-
-variable "shared_rg_name" {
-  description = "Resource Group containing the shared App Service plan"
-  type        = string
-  default     = "rg-shared-prf2026"
-}
-
-variable "shared_plan_name" {
+variable "plan_name" {
   description = "Name of the shared App Service plan"
   type        = string
-  default     = "plan-npr-prf2026"
+  default     = "plan-malik-cherfi"
 }
 
 variable "tags" {
