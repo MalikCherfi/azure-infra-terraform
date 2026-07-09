@@ -11,22 +11,18 @@ variable "owner" {
 variable "resource_group_name" {
   description = "Name of the Resource Group pre-created by the trainer. Ex: rg-john-doe"
   type        = string
-  default     = "rg-malik-cherfi"
 }
 
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "francecentral"
 }
 variable "plan_name" {
   description = "Name of the shared App Service plan"
   type        = string
-  default     = "plan-malik-cherfi"
 }
 
 variable "tags" {
   description = "Additional tags to merge with default tags"
   type        = map(string)
-  default     = {}
 }
