@@ -68,7 +68,9 @@ resource "azurerm_role_definition" "role-definition" {
       "Microsoft.Web/sites/*",
       "Microsoft.Web/serverfarms/*",
       "Microsoft.Web/sites/config/*",
-      "Microsoft.ManagedIdentity/userAssignedIdentities/read"
+      "Microsoft.ManagedIdentity/userAssignedIdentities/read",
+      "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials/read",
+      "Microsoft.Authorization/roleAssignments/read",
     ]
     not_actions = []
   }
