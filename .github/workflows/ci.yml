@@ -42,6 +42,12 @@ jobs:
         run: terraform fmt -check -recursive
         continue-on-error: true
 
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: starter/terraform
+          framework: terraform
+
       - name: Terraform Init
         run: |
           terraform init \
