@@ -14,6 +14,9 @@ jobs:
     terraform:
         name: "Terraform"
         runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: starter/terraform
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -28,7 +31,7 @@ jobs:
             - name: Setup Terraform
               uses: hashicorp/setup-terraform@v4
 
-            - name: 'Terraform Validate'
+            - name: "Terraform Validate"
               run: terraform validate
 
             - name: "Terraform Format Check"
