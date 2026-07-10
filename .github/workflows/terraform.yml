@@ -13,10 +13,10 @@ permissions:
 jobs:
   terraform:
     env:
-      TF_VAR_owner: ${{ vars.OWNER }}
-      TF_VAR_resource_group_name: ${{ vars.RESOURCE_GROUP_NAME }}
-      TF_VAR_location: ${{ vars.LOCATION }}
-      TF_VAR_plan_name: ${{ vars.PLAN_NAME }}
+      TF_VAR_owner: ${{ vars.TF_VAR_OWNER }}
+      TF_VAR_resource_group_name: ${{ vars.TF_VAR_RESOURCE_GROUP_NAME }}
+      TF_VAR_location: ${{ vars.TF_VAR_LOCATION }}
+      TF_VAR_plan_name: ${{ vars.TF_VAR_PLAN_NAME }}
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
