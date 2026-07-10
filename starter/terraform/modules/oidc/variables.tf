@@ -14,6 +14,11 @@ variable "fic_feat_name" {
   type    = string
   default = "github-federated-identity-feat-terraform-config"
 }
+
+variable "fic_pr_name" {
+  type    = string
+  default = "github-federated-identity-pr"
+}
 variable "role_definition_name" {
   type    = string
   default = "creator-role"
