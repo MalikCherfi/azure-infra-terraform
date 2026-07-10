@@ -1,49 +1,53 @@
 name: Terraform CI
 
 on:
-    push:
-        branches: ["main"]
-    pull_request:
-        branches: ["main"]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
-    contents: read
-    id-token: write
+  contents: read
+  id-token: write
 
 jobs:
-    terraform:
-        name: "Terraform"
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: starter/terraform
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  terraform:
+    env:
+      TF_VAR_owner: ${{ vars.OWNER }}
+      TF_VAR_resource_group_name: ${{ vars.RESOURCE_GROUP_NAME }}
+      TF_VAR_location: ${{ vars.LOCATION }}
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: starter/terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Login Azure
-              uses: azure/login@v2
-              with:
-                  client-id: ${{ secrets.AZURE_CLIENT_ID }}
-                  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-                  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Login Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
 
-            - name: "Terraform Validate"
-              run: terraform validate
+      - name: "Terraform Format Check"
+        run: terraform fmt -check -recursive
+        continue-on-error: true
 
-            - name: "Terraform Format Check"
-              run: terraform fmt -check -recursive
-              continue-on-error: true
+      - name: Terraform Init
+        run: terraform init -backend-config="resource_group_name=rg-malik-cherfi" -backend-config="storage_account_name=stmalikcherfiterraform" -backend-config="container_name=tfstate" -backend-config="key=malik-cherfi.terraform.tfstate"
 
-            - name: Terraform Init
-              run: terraform init
+      - name: Terraform Validate
+        run: terraform validate
 
-            - name: Terraform Plan
-              run: terraform plan -out=tfplan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
-            - name: Terraform Apply
-              if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-              run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
