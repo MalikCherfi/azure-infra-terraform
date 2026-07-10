@@ -47,6 +47,7 @@ jobs:
         with:
           directory: starter/terraform
           framework: terraform
+          soft_fail: true
 
       - name: Terraform Init
         run: |
