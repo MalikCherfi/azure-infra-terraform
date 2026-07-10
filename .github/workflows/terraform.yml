@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true
 
       - name: Terraform Init
-        run: terraform init -backend-config="resource_group_name=rg-malik-cherfi" -backend-config="storage_account_name=stmalikcherfiterraform" -backend-config="container_name=tfstate" -backend-config="key=malik.terraform.tfstate"
+        run: terraform init -backend-config="resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP }}" -backend-config="storage_account_name=${{ secrets.AZURE_SA_NAME }}" -backend-config="container_name=${{ secrets.AZURE_CONTAINER_NAME }}" -backend-config="key=${{ secrets.TFSTATE_KEY }}"
 
       - name: Terraform Validate
         run: terraform validate
