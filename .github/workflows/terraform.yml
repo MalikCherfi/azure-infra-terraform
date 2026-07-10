@@ -16,6 +16,7 @@ jobs:
       TF_VAR_owner: ${{ vars.OWNER }}
       TF_VAR_resource_group_name: ${{ vars.RESOURCE_GROUP_NAME }}
       TF_VAR_location: ${{ vars.LOCATION }}
+      TF_VAR_plan_name: ${{ vars.PLAN_NAME }}
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
