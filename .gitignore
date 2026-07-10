@@ -46,3 +46,4 @@ terraform.rc
 *.DS_Store
 
 backend.hcl
+.tflint.hcl
