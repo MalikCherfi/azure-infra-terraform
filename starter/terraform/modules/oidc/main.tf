@@ -56,6 +56,7 @@ resource "azurerm_role_definition" "role-definition" {
       "Microsoft.App/containerApps/*",
       "Microsoft.App/managedEnvironments/*",
       "Microsoft.ContainerRegistry/registries/*",
+      "Microsoft.ContainerInstance/containerGroups/read",
       "Microsoft.OperationalInsights/workspaces/*",
       "Microsoft.OperationalInsights/workspaces/sharedKeys/action",
       "Microsoft.Resources/subscriptions/resourceGroups/read",
