@@ -47,7 +47,30 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: |
+          terraform plan -no-color -out=tfplan > plan_output.txt 2>&1
+          echo "exitcode=$?" >> "$GITHUB_OUTPUT"
+          echo "plan<<EOF" >> "$GITHUB_OUTPUT"
+          cat plan_output.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: Comment Plan on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const output = `#### Terraform Plan 📖
+            \`\`\`
+            ${{ steps.plan.outputs.plan }}
+            \`\`\`
+            `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
