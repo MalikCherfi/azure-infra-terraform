@@ -33,7 +33,7 @@ module "oidc" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 # ── Storage (Étape 2) ─────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ module "storage" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 
 }
 
@@ -55,7 +55,7 @@ module "app_service" {
   location            = var.location
   resource_group_name = var.resource_group_name
   service_plan_id     = azurerm_service_plan.plan.id
-  tags                = var.tags
+  tags                = local.tags
 }
 
 # ── Function App (Étape 3) ────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ module "function_app" {
   resource_group_name = var.resource_group_name
   location            = var.location
   service_plan_id     = azurerm_service_plan.plan.id
-  tags                = var.tags
+  tags                = local.tags
 }
 
 # ── Container Instance (Étape 3) ──────────────────────────────────────────────
@@ -76,7 +76,7 @@ module "container" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 # ── Network (Étape 7) ─────────────────────────────────────────────────────────
@@ -86,5 +86,5 @@ module "network" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
