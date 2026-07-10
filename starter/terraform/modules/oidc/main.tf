@@ -34,6 +34,14 @@ resource "azurerm_federated_identity_credential" "github-federated-identity-feat
   subject                   = "repo:MalikCherfi/azure-infra-terraform:ref:refs/heads/feat/terraform-config"
 }
 
+resource "azurerm_federated_identity_credential" "github-federated-identity-pr" {
+  name                      = var.fic_pr_name
+  audience                  = ["api://AzureADTokenExchange"]
+  issuer                    = "https://token.actions.githubusercontent.com"
+  user_assigned_identity_id = azurerm_user_assigned_identity.oidc.id
+  subject                   = "repo:MalikCherfi/azure-infra-terraform:pull_request"
+}
+
 locals {
   role_definition_name = "${var.role_definition_name}-${var.resource_group_name}"
 }
