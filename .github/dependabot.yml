@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # Surveille les providers et modules Terraform
+  - package-ecosystem: "terraform"
+    directory: "/starter/terraform"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    labels:
+      - "terraform"
+      - "dependencies"
+
+  # Surveille les actions utilisées dans les workflows (azure/login, hashicorp/setup-terraform, etc.)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    labels:
+      - "github-actions"
+      - "dependencies"
