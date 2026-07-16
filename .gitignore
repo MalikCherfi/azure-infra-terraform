@@ -44,3 +44,6 @@ terraform.rc
 # planout
 
 *.DS_Store
+
+backend.hcl
+.tflint.hcl

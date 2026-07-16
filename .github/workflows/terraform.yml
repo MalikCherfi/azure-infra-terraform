@@ -1,10 +1,16 @@
-name: CI
+name: Terraform workflow dispatch
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Action Terraform à exécuter"
+        required: true
+        type: choice
+        options:
+          - apply
+          - destroy
+        default: apply
 
 permissions:
   contents: read
@@ -12,6 +18,9 @@ permissions:
 
 jobs:
   terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
     env:
       TF_VAR_owner: ${{ vars.TF_VAR_OWNER }}
       TF_VAR_resource_group_name: ${{ vars.TF_VAR_RESOURCE_GROUP_NAME }}
@@ -21,8 +30,6 @@ jobs:
     defaults:
       run:
         working-directory: starter/terraform
-
-    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -42,13 +49,6 @@ jobs:
         run: terraform fmt -check -recursive
         continue-on-error: true
 
-      - name: Checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: starter/terraform
-          framework: terraform
-          soft_fail: true
-
       - name: Terraform Init
         run: |
           terraform init \
@@ -61,4 +61,13 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+        if: ${{ inputs.action == 'apply' }}
         run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        if: ${{ inputs.action == 'apply' }}
+        run: terraform apply -auto-approve tfplan
+
+      - name: Terraform Destroy
+        if: ${{ inputs.action == 'destroy' }}
+        run: terraform destroy -auto-approve
