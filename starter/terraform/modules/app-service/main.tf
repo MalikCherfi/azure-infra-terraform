@@ -24,5 +24,10 @@ resource "azurerm_linux_web_app" "app" {
     }
   }
 
+  app_settings = {
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
+  }
+
+
   tags = var.tags
 }
