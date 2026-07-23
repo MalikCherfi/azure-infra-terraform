@@ -56,6 +56,7 @@ module "app_service" {
   resource_group_name = var.resource_group_name
   service_plan_id     = azurerm_service_plan.plan.id
   tags                = local.tags
+  app_insights_connection_string  = module.application_insights.app_insights_connection_string
 }
 
 # ── Function App (Étape 3) ────────────────────────────────────────────────────
@@ -86,5 +87,13 @@ module "network" {
   owner               = var.owner
   resource_group_name = var.resource_group_name
   location            = var.location
+  tags                = local.tags
+}
+
+module "application_insights" {
+  source = "./modules/application-insights"
+
+  owner               = var.owner
+  resource_group_name = var.resource_group_name
   tags                = local.tags
 }
