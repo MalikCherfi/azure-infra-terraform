@@ -17,3 +17,8 @@ output "storage_account_name" {
   description = "Nom du Storage Account"
   value       = module.storage.storage_account_name
 }
+
+output "app_insights_connection_string" {
+  value     = module.application_insights.app_insights_connection_string
+  sensitive = true
+}
