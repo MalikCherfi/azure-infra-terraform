@@ -25,7 +25,8 @@ resource "azurerm_linux_web_app" "app" {
   }
 
   app_settings = {
-    "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
+    "SCM_DO_BUILD_DURING_DEPLOYMENT"        = "true"
+    "APPLICATIONINSIGHTS_CONNECTION_STRING" = var.app_insights_connection_string
   }
 
 
