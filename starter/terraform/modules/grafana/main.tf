@@ -10,13 +10,13 @@ terraform {
 
 data "azurerm_monitor_workspace" "prometheus" {
   name                = "amw-malik-cherfi"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_dashboard_grafana" "grafana" {
   name                  = "grafana-monitoring-${var.owner}"
-  resource_group_name   = data.azurerm_resource_group.rg.name
-  location              = data.azurerm_resource_group.rg.location
+  resource_group_name   = var.resource_group_name
+  location              = var.location
   grafana_major_version = "12"
   tags                  = var.tags
 
