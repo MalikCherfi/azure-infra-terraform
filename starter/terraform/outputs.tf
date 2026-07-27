@@ -22,3 +22,15 @@ output "app_insights_connection_string" {
   value     = module.application_insights.app_insights_connection_string
   sensitive = true
 }
+
+output "network_ip_prometheus" {
+  value = module.network.prometheus_nic_id
+}
+
+output "prometheus_public_ip" {
+  value = module.network.prometheus_public_ip
+}
+
+output "grafana_endpoint" {
+  value = module.grafana.grafana_endpoint
+}
