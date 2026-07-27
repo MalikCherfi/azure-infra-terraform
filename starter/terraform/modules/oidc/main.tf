@@ -71,6 +71,7 @@ resource "azurerm_role_definition" "role-definition" {
       "Microsoft.ManagedIdentity/userAssignedIdentities/read",
       "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials/read",
       "Microsoft.Authorization/roleAssignments/read",
+      "Microsoft.Monitor/*"
     ]
     not_actions = []
   }
