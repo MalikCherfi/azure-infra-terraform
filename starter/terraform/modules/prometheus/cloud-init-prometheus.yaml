@@ -1,0 +1,33 @@
+#cloud-config
+package_update: true
+packages:
+  - wget
+  - tar
+
+runcmd:
+  - useradd --no-create-home --shell /bin/false prometheus
+  - mkdir -p /etc/prometheus /var/lib/prometheus
+  - wget https://github.com/prometheus/prometheus/releases/download/v3.0.1/prometheus-3.0.1.linux-amd64.tar.gz -P /tmp
+  - tar xvf /tmp/prometheus-3.0.1.linux-amd64.tar.gz -C /tmp
+  - cp /tmp/prometheus-3.0.1.linux-amd64/prometheus /usr/local/bin/
+  - cp /tmp/prometheus-3.0.1.linux-amd64/promtool /usr/local/bin/
+  - cp -r /tmp/prometheus-3.0.1.linux-amd64/consoles /etc/prometheus/
+  - cp -r /tmp/prometheus-3.0.1.linux-amd64/console_libraries /etc/prometheus/
+  - cp /tmp/prometheus-3.0.1.linux-amd64/prometheus.yml /etc/prometheus/
+  - chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus /usr/local/bin/prometheus /usr/local/bin/promtool
+  - |
+    cat <<'EOF' > /etc/systemd/system/prometheus.service
+    [Unit]
+    Description=Prometheus
+    After=network.target
+
+    [Service]
+    User=prometheus
+    ExecStart=/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus/
+
+    [Install]
+    WantedBy=multi-user.target
+    EOF
+  - systemctl daemon-reload
+  - systemctl enable prometheus
+  - systemctl start prometheus
