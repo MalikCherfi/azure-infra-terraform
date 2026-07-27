@@ -111,6 +111,8 @@ module "prometheus" {
 module "grafana" {
   source = "./modules/grafana"
 
+  resource_group_name = var.resource_group_name
+  location            = var.location
   owner               = var.owner
   tags                = local.tags
 }
