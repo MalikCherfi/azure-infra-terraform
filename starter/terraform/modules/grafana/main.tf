@@ -13,6 +13,10 @@ data "azurerm_monitor_workspace" "prometheus" {
   resource_group_name = var.resource_group_name
 }
 
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
+
 resource "azurerm_dashboard_grafana" "grafana" {
   name                  = "grafana-monitoring-${var.owner}"
   resource_group_name   = var.resource_group_name
