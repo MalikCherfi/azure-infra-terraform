@@ -18,7 +18,7 @@ data "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_dashboard_grafana" "grafana" {
-  name                  = "grafana-monitoring-${var.owner}"
+  name                  = "gm-${var.owner}"
   resource_group_name   = var.resource_group_name
   location              = var.location
   grafana_major_version = "12"
@@ -37,4 +37,12 @@ resource "azurerm_role_assignment" "grafana_monitoring_reader" {
   scope                = data.azurerm_resource_group.rg.id
   role_definition_name = "Monitoring Reader"
   principal_id         = azurerm_dashboard_grafana.grafana.identity[0].principal_id
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_role_assignment" "grafana_admin_self" {
+  scope                = azurerm_dashboard_grafana.grafana.id
+  role_definition_name = "Grafana Admin"
+  principal_id         = data.azurerm_client_config.current.object_id
 }
