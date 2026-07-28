@@ -89,7 +89,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "alerte_taux_erreur" {
   location             = var.location
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
-  scopes               = [azurerm_application_insights.appi.id]
+  scopes               = [data.azurerm_application_insights.appi.id]
   severity             = 2
 
   criteria {
