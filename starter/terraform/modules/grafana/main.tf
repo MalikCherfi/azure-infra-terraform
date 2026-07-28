@@ -46,3 +46,34 @@ resource "azurerm_role_assignment" "grafana_admin_self" {
   role_definition_name = "Grafana Admin"
   principal_id         = data.azurerm_client_config.current.object_id
 }
+
+resource "azurerm_monitor_action_group" "ag" {
+  name                = "ag-monitoring-${var.owner}"
+  resource_group_name = var.resource_group_name
+  short_name          = "alertmonit"
+
+  email_receiver {
+    name          = "owner"
+    email_address = "malikcherfi@gmail.com"
+  }
+}
+
+resource "azurerm_monitor_alert_prometheus_rule_group" "alerte_erreurs" {
+  name                = "alerte-erreurs-${var.owner}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  cluster_name        = data.azurerm_monitor_workspace.prometheus.name
+  scopes              = [data.azurerm_monitor_workspace.prometheus.id]
+  rule_group_enabled  = true
+
+  rule {
+    enabled    = true
+    expression = "log_erreurs_total > 5"
+    severity   = 2
+    alert      = "alerte-erreurs-${var.owner}"
+
+    action {
+      action_group_id = azurerm_monitor_action_group.ag.id
+    }
+  }
+}
