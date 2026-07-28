@@ -77,3 +77,29 @@ resource "azurerm_monitor_alert_prometheus_rule_group" "alerte_erreurs" {
     }
   }
 }
+
+data "azurerm_application_insights" "appi" {
+  name                = "appi-monitoring-${var.owner}"
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "alerte_taux_erreur" {
+  name                 = "alerte-taux-erreur-${var.owner}"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [azurerm_application_insights.appi.id]
+  severity             = 2
+
+  criteria {
+    query                   = "requests | where success == false"
+    time_aggregation_method = "Count"
+    threshold               = 5
+    operator                = "GreaterThan"
+  }
+
+  action {
+    action_groups = [azurerm_monitor_action_group.ag.id]
+  }
+}
