@@ -32,7 +32,7 @@ resource "azurerm_linux_virtual_machine" "vm_prometheus" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("${path.module}/files/prometheus_vm.pub")
   }
 
   os_disk {
